@@ -79,8 +79,8 @@ caproverOneClickApp:
           description: The server timezone as a TZ identifier. See here: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones          
     instructions:
         start: >-
-            Jamulus is for playing, rehearsing, or just jamming with your friends, your band or just anyone you find online.
-            With high quality, low-latency sound on a normal broadband connection, it is easy to play together remotely and in time.
+            Jamulus is about to be installed.
+            Keep in mind that if you want to get the realtime capabilities of this app you should install a PREEMPT_RT kernel on your host machine!
         end: >-
             Awesome, configuration is done. Only one more important thing left to do!
             Open udp port $$cap_jamulus_port in the uwf firewall on the host machine like this
