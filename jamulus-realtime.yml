@@ -1,6 +1,8 @@
 captainVersion: 4
 services:
     $$cap_appname:
+        caproverExtra:
+           notExposeAsWebApp: 'true'
         image: ginjo/jamulus:$$cap_jamulus_version
         restart: unless-stopped
         hostname: $$cap_appname.$$cap_root_domain
@@ -28,8 +30,6 @@ services:
             retries: 5
             start_period: 20s
             timeout: 10s            
-        volumes:
-            - $$cap_appname:/config
         ports:
             - $$cap_jamulus_port:$$cap_jamulus_port
         cap_add:
@@ -76,21 +76,23 @@ caproverOneClickApp:
         - id: $$cap_jamulus_tz
           label: Server Timezone
           defaultValue: 'Europe/Amsterdam'
-          description: The server timezone as a TZ identifier. See here: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones          
+          description: The server timezone as a TZ identifier. See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones          
     instructions:
-        start: >-
-            Jamulus is about to be installed.
-            Keep in mind that if you want to get the realtime capabilities of this app you should install a PREEMPT_RT kernel on your host machine!
-        end: >-
+        start: |-
+            Jamulus is for playing, rehearsing, or just jamming with your friends, your band or just anyone you find online.
+            More details: https://jamulus.io
+            
+            If you want to get the real-time capabilities of this app you should install a PREEMPT_RT kernel on your host machine!
+            More details: https://github.com/2b-t/docker-realtime
+        end: |-
             Awesome, configuration is done. Only one more important thing left to do!
-            Open udp port $$cap_jamulus_port in the uwf firewall on the host machine like this
+            Open udp port $$cap_jamulus_port in the uwf firewall on the host machine like this:
 
                 ufw allow $$cap_jamulus_port/udp
             
             After that fire up your Jamulus client (get it from https://jamulus.io/wiki/Getting-Started if you didn't install it yet).
-            And see you're brand new jamulus server happy waiting in your chosen directory server ($$cap_jamulus_directory_server) for music to be made!
-          
-    displayName: 'Jamulus Headless'
+            And see you're brand new jamulus server happy waiting in your chosen directory server ($$cap_jamulus_directory_server) for music to be made!      
+    displayName: 'Jamulus'
     isOfficial: false
     description: Jamulus is for playing, rehearsing, or just jamming with your friends, your band or just anyone you find online.
     documentation: Image from https://hub.docker.com/r/ginjo/jamulus (Thx Ginjo!) and server documentation from https://jamulus.io/wiki/Running-a-Server
