@@ -1,0 +1,98 @@
+captainVersion: 4
+services:
+    $$cap_appname:
+        image: ginjo/jamulus:$$cap_jamulus_version
+        restart: unless-stopped
+        hostname: $$cap_appname.$$cap_root_domain
+        command: '--default-authentication-plugin=mysql_native_password'
+        environment:
+            TZ: $$cap_jamulus_tz
+        entrypoint:
+            - "Jamulus"
+            - "--server"
+            - "--nogui"
+            - "--multithreading"
+            - "--welcomemessage"
+            - "$$cap_jamulus_welcome_message"
+            - "--numchannels"
+            - "$$cap_jamulus_num_channels"
+            - "--directoryserver"
+            - "$$cap_jamulus_directory_server"
+            - "--port"
+            - "$$cap_jamulus_port"
+            - "--serverinfo"
+            - "$$cap_jamulus_server_name;$$cap_jamulus_city;$$cap_jamulus_country"
+        healthcheck:
+            test: ["CMD-SHELL", "nc -zu localhost $$cap_jamulus_port || exit 1"]
+            interval: 60s
+            retries: 5
+            start_period: 20s
+            timeout: 10s            
+        volumes:
+            - $$cap_appname:/config
+        ports:
+            - $$cap_jamulus_port:$$cap_jamulus_port
+        cap_add:
+            - SYS_NICE
+        ulimits:
+            rtprio: 99
+            rttime: -1 # corresponds to 'unlimited'
+            memlock: 8428281856
+
+caproverOneClickApp:
+    variables:
+        - id: $$cap_jamulus_version
+          label: Jamulus Image Version 
+          defaultValue: 'latest'
+          description: Check out their docker page for the valid tags https://hub.docker.com/r/ginjo/jamulus/tags
+        - id: $$cap_jamulus_server_name
+          label: Server name
+          defaultValue: "Captain Jamulus"
+          description: Set the name of your server. Keep it short. May contain emoticons.         
+        - id: $$cap_jamulus_welcome_message
+          label: Server Welcome Message
+          defaultValue: '=== Welcome to my super cool jam server ==='
+          description: Welcome message on connect. Can contain HTML.
+        - id: $$cap_jamulus_num_channels
+          label: Number of channels
+          defaultValue: '16'
+          description: Maximum number of channels (Clients)
+        - id: $$cap_jamulus_directory_server
+          label: Directory Server
+          defaultValue: 'anygenre1.jamulus.io:22124'
+          description: Register the server on a directory. For genres see https://jamulus.io/wiki/Running-a-Server#server-types
+        - id: $$cap_jamulus_port
+          label: UDP Listening Port
+          defaultValue: '22124'
+          description: Sets the local UDP port number. Default is 22124
+        - id: $$cap_jamulus_city
+          label: Server City
+          defaultValue: 'Amsterdam'
+          description: Set the City where your server is located (or where you want it to be ;-)). 
+        - id: $$cap_jamulus_country
+          label: Server Country
+          defaultValue: 'NL'
+          description: Set the Country where your server is located in two-letter ISO country code. See https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 
+        - id: $$cap_jamulus_tz
+          label: Server Timezone
+          defaultValue: 'Europe/Amsterdam'
+          description: The server timezone as a TZ identifier. See here: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones          
+    instructions:
+        start: >-
+            Jamulus is for playing, rehearsing, or just jamming with your friends, your band or just anyone you find online.
+            With high quality, low-latency sound on a normal broadband connection, it is easy to play together remotely and in time.
+        end: >-
+            Awesome, configuration is done. Only one more important thing left to do!
+            Open udp port $$cap_jamulus_port in the uwf firewall on the host machine like this
+
+                ufw allow $$cap_jamulus_port/udp
+            
+            After that fire up your Jamulus client (get it from https://jamulus.io/wiki/Getting-Started if you didn't install it yet).
+            And see you're brand new jamulus server happy waiting in your chosen directory server ($$cap_jamulus_directory_server) for music to be made!
+          
+    displayName: 'Jamulus Headless'
+    isOfficial: false
+    description: Jamulus is for playing, rehearsing, or just jamming with your friends, your band or just anyone you find online.
+    documentation: Image from https://hub.docker.com/r/ginjo/jamulus (Thx Ginjo!) and server documentation from https://jamulus.io/wiki/Running-a-Server
+
+
