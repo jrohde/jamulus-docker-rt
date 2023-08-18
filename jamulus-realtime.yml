@@ -9,6 +9,13 @@ services:
         hostname: $$cap_appname.$$cap_root_domain
         environment:
             TZ: $$cap_jamulus_tz
+            JAMULUS_SERVER_NAME: $$cap_jamulus_server_name
+            JAMULUS_WELCOME_MESSAGE: $$cap_jamulus_welcome_message
+            JAMULUS_DIRECTORY_SERVER: $$cap_jamulus_directory_server
+            JAMULUS_NUM_CHANNELS: $$cap_jamulus_num_channels
+            JAMULUS_PORT: $$cap_jamulus_port
+            JAMULUS_CITY: $$cap_jamulus_city
+            JAMULUS_COUNTRY: $$cap_jamulus_country
         entrypoint:
             - "nice -n -20 ionice -c 1 jamulus-headless"
             - "--server"
