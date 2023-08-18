@@ -22,7 +22,7 @@ services:
             - "--nogui"
             - "--multithreading"
             - "--welcomemessage"
-            - "$$cap_jamulus_welcome_message"
+            - "\"$$cap_jamulus_welcome_message\""
             - "--numchannels"
             - "$$cap_jamulus_num_channels"
             - "--directoryserver"
@@ -30,7 +30,7 @@ services:
             - "--port"
             - "$$cap_jamulus_port"
             - "--serverinfo"
-            - "$$cap_jamulus_server_name;$$cap_jamulus_city;$$cap_jamulus_country"
+            - "\"$$cap_jamulus_server_name;$$cap_jamulus_city;$$cap_jamulus_country\""
         healthcheck:
             test: ["CMD-SHELL", "nc -zu localhost $$cap_jamulus_port || exit 1"]
             interval: 60s
