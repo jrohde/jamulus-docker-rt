@@ -7,7 +7,7 @@ RUN echo "*** updating system packages ***" && \
 
 RUN echo "*** prepare build environment ***" && \
     apt-get -qq --no-install-recommends -y install \
-    wget devscripts build-essential qtbase5-dev qttools5-dev-tools
+    tar wget devscripts build-essential qtbase5-dev qttools5-dev-tools
 
 WORKDIR /tmp    
 RUN echo "*** fetch jamulus source ***" && \
