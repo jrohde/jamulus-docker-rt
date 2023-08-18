@@ -79,13 +79,17 @@ caproverOneClickApp:
             
             If you want to get the real-time capabilities of this app you should install a PREEMPT_RT kernel on your host machine!
             More details: https://github.com/2b-t/docker-realtime
-        end: |-
-            Awesome, configuration is done. Only one more important thing left to do!
-            Open udp port $$cap_jamulus_port in the uwf firewall on the host machine like this:
 
-                ufw allow $$cap_jamulus_port/udp
+            `Important!` If you are using CapRover version `1.10.1` or older, you will need to **override CapRover's configuration** to use the newer Docker API version `1.4.1` (this can be done manually or by running `echo "{\"dockerApiVersion\":\"v1.41\"}" > /captain/data/config-override.json`).
+            Restart CapRover after this with `docker service update captain-captain --force`.
+        end: |-
+            Awesome, configuration is done. Only a few important steps more to do!
             
-            After that fire up your Jamulus client (get it from https://jamulus.io/wiki/Getting-Started if you didn't install it yet).
+            1. Open udp port $$cap_jamulus_port in the uwf firewall on the host machine like this: `ufw allow $$cap_jamulus_port/udp`.
+            2. Go to **App Configs** and paste the following snippet into **Service Update Override**: `{ "TaskTemplate": { "ContainerSpec": { "CapabilityAdd": ["CAP_SYS_NICE"], "Hostname": "$$cap_appname.$$cap_root_domain" } } }`. 
+            3. Press **Save & Update**
+            
+            After that check the logs if your server is registered and fire up your Jamulus client (get it from https://jamulus.io/wiki/Getting-Started if you didn't install it yet).
             And see you're brand new jamulus server happy waiting in your chosen directory server ($$cap_jamulus_directory_server) for music to be made!      
     displayName: 'Jamulus'
     isOfficial: false
