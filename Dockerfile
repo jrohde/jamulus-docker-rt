@@ -31,4 +31,4 @@ RUN echo "*** prepare run environment ***" && \
    apt-get -qq --no-install-recommends -y install \
    tzdata procps libqt5core5a libqt5network5 libqt5xml5
 
-ENTRYPOINT ["jamulus-headless"]
+ENTRYPOINT ["/usr/bin/nice -n -20 /usr/bin/ionice -c 1 /usr/local/bin/jamulus-headless -s -n -T -F"]
