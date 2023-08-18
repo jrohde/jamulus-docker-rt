@@ -29,6 +29,6 @@ RUN echo "*** clean up build environment ***" && \
    
 RUN echo "*** prepare run environment ***" && \
    apt-get -qq --no-install-recommends -y install \
-   tzdata libqt5core5a libqt5network5 libqt5xml5
+   tzdata procps libqt5core5a libqt5network5 libqt5xml5
 
 ENTRYPOINT ["jamulus-headless"]
