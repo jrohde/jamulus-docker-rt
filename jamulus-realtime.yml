@@ -1,16 +1,16 @@
 captainVersion: 4
+version: "3.9"
 services:
     $$cap_appname:
         caproverExtra:
            notExposeAsWebApp: 'true'
-        image: ginjo/jamulus:$$cap_jamulus_version
+        image: smartlabel/jamulus:$$cap_jamulus_version
         restart: unless-stopped
         hostname: $$cap_appname.$$cap_root_domain
-        command: '--default-authentication-plugin=mysql_native_password'
         environment:
             TZ: $$cap_jamulus_tz
         entrypoint:
-            - "Jamulus"
+            - "nice -n -20 ionice -c 1 jamulus-headless"
             - "--server"
             - "--nogui"
             - "--multithreading"
@@ -31,14 +31,15 @@ services:
             start_period: 20s
             timeout: 10s            
         ports:
-            - $$cap_jamulus_port:$$cap_jamulus_port
+            - $$cap_jamulus_port:$$cap_jamulus_port/udp
         cap_add:
             - SYS_NICE
         ulimits:
             rtprio: 99
             rttime: -1 # corresponds to 'unlimited'
             memlock: 8428281856
-
+        network_mode: host
+        
 caproverOneClickApp:
     variables:
         - id: $$cap_jamulus_version
@@ -95,6 +96,4 @@ caproverOneClickApp:
     displayName: 'Jamulus'
     isOfficial: false
     description: Jamulus is for playing, rehearsing, or just jamming with your friends, your band or just anyone you find online.
-    documentation: Image from https://hub.docker.com/r/ginjo/jamulus (Thx Ginjo!) and server documentation from https://jamulus.io/wiki/Running-a-Server
-
-
+    documentation: Image from https://hub.docker.com/r/smartlabel/jamulus and server documentation from https://jamulus.io/wiki/Running-a-Server
