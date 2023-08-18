@@ -24,7 +24,8 @@ RUN echo "*** compile jamulus ***" && \
 RUN echo "*** clean up build environment ***" && \
    rm -rf /tmp/* && \
    apt-get -qq clean && \
-   apt-get -qq --purge wget devscripts build-essential qtbase5-dev qttools5-dev-tools
+   apt-get -qq --purge wget devscripts build-essential qtbase5-dev qttools5-dev-tools && \
+   apt-get -qq --purge autoremove -y
    
 RUN echo "*** prepare run environment ***" && \
    apt-get -qq --no-install-recommends -y install \
