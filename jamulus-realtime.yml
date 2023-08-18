@@ -73,18 +73,8 @@ caproverOneClickApp:
             
             1. Open udp port $$cap_jamulus_port in the uwf firewall on the host machine like this: `ufw allow $$cap_jamulus_port/udp`.
             2. Go to **App Configs** and paste the following snippet into **Service Update Override**: 
-            `TaskTemplate:  
-               ContainerSpec: 
-                 CapabilityAdd: ["CAP_SYS_NICE","NET_ADMIN"]
-                 Healthcheck:
-                   Test: ["CMD-SHELL", "nc -zu localhost $$cap_jamulus_port || exit 1"]
-                   Interval: 60000000000
-                   Retries: 5
-                   StartPeriod: 20000000000
-                   Timeout: 10000000000
-                 Ulimits: [{"Rtprio":"99","Rttime":"-1","Memlock":"8428281856"}]` 
+            `{"TaskTemplate":{"ContainerSpec":{"Hostname":"$$cap_appname.$$cap_root_domain","CapabilityAdd":["CAP_SYS_NICE","NET_ADMIN"],"Ulimits":[{"Rtprio":"99","Rttime":"-1","Memlock":"8428281856"}],"Hostname":"$$cap_appname.$$cap_root_domain","Healthcheck":{"Test":["CMD-SHELL","nc -zu localhost 22124 || exit 1"],"Interval":60000000000,"Retries":5,"StartPeriod":20000000000,"Timeout":10000000000}}}}` 
             3. Press **Save & Update**
-            4. 
             
             After that check the logs if your server is registered and fire up your Jamulus client (get it from https://jamulus.io/wiki/Getting-Started if you didn't install it yet).
             And see you're brand new jamulus server happy waiting in your chosen directory server ($$cap_jamulus_directory_server) for music to be made!      
