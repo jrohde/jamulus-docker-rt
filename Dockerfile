@@ -29,6 +29,4 @@ RUN echo "*** clean up build environment ***"; \
 RUN echo "*** prepare run environment ***"; \
    apt-get -y install --no-install-recommends tzdata procps libqt5core5a libqt5network5 libqt5xml5
 
-COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["jamulus-headless","-s","-n","-e","anygenre1.jamulus.io:22124","-o","\"Docker Jam;Amsterdam;NL\""]
