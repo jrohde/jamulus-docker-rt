@@ -6,6 +6,7 @@ services:
            notExposeAsWebApp: 'true'
            dockerfileLines:
                - FROM smartlabel/jamulus:$$cap_jamulus_version
+               - ENTRYPOINT ["/usr/bin/nice","-n","-20","/usr/bin/ionice","-c","1","/usr/local/bin/jamulus-headless"]
                - CMD ["-s","-n","-T","-F","-w","\"$$cap_jamulus_welcome_message\"","-u","$$cap_jamulus_num_channels","-e","$$cap_jamulus_directory_server","-p","$$cap_jamulus_port","-o","\"$$cap_jamulus_server_name;$$cap_jamulus_city;$$cap_jamulus_country\""]
         restart: unless-stopped
         hostname: $$cap_appname.$$cap_root_domain
