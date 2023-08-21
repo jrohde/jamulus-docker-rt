@@ -71,7 +71,9 @@ caproverOneClickApp:
         end: |-
             Awesome, configuration is done. Only a few important steps more to do!
             
-            1. Open udp port $$cap_jamulus_port in the uwf firewall on the host machine like this: `ufw allow $$cap_jamulus_port/udp`.
+            1. Open udp port $$cap_jamulus_port in the uwf firewall on the host machine like this:
+            
+            `ufw allow $$cap_jamulus_port/udp`.
             2. Go to **App Configs** and paste the following snippet into **Service Update Override**:
             
             `{"TaskTemplate":{"ContainerSpec":{"Hostname":"$$cap_appname.$$cap_root_domain","CapabilityAdd":["CAP_SYS_NICE","NET_ADMIN"],"Ulimits":[{"Name","rtprio","Soft":0,"Hard":99}],"Hostname":"$$cap_appname.$$cap_root_domain","Healthcheck":{"Test":["CMD-SHELL","nc -zu localhost $$cap_jamulus_port || exit 1"],"Interval":60000000000,"Retries":5,"StartPeriod":20000000000,"Timeout":10000000000}}}}` 
